@@ -1,0 +1,70 @@
+.worktableWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgb(85, 85, 85);
+}
+
+.worktableTitle {
+  text-align: center;
+  font-size: 30px;
+}
+
+.sprintContainer {
+  margin-top: 10px;
+  width: 500px;
+  padding: 0 25px 15px 25px;
+  background-color: #dbe0e6;
+  border: 1px solid #b0b0b0;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+
+.sprintName {
+  font-size: 19px;
+  text-align: center;
+}
+
+.taskContainer {
+  text-align: left;
+  background-color: #d4d9df;
+  border: 1px solid #b0b0b0;
+  border-radius: 15px;
+  padding: 10px 40px 25px 40px;
+  margin-bottom: 15px;
+}
+
+.taskContainerButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.addPerformerButton,
+.deleteButton {
+  width: 155px;
+  background-color: rgba(255, 255, 255, 0);
+  border: 1px solid black;
+  border-radius: 7px;
+  font: inherit;
+  transition: all ease 0.5s;
+
+  &:active {
+    transform: scale(0.8);
+    transition: all ease 0.2s;
+    -webkit-transition: all ease 0.2s;
+    -moz-transition: all ease 0.2s;
+    -ms-transition: all ease 0.2s;
+    -o-transition: all ease 0.2s;
+    -webkit-transform: scale(0.8);
+    -moz-transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    -o-transform: scale(0.8);
+  }
+}
