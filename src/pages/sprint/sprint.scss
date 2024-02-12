@@ -1,0 +1,58 @@
+.sprintWrapper {
+  background-color: #d1d6da;
+  width: 100%;
+  height: 100%;
+}
+
+.sprintHeader {
+  margin: 1vh 0vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 40vw;
+}
+
+.dataHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3vw;
+}
+
+.column {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  background-color: #e1e6ec;
+}
+
+.sprintContainerSprint {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  width: inherit;
+  //width: 100vw;
+  height: fit-content;
+}
+
+.columnTitle {
+  font-size: 20px;
+  text-align: center;
+}
+
+.sprintHeader {
+  height: 30px;
+  background-color: #d1d6da;
+  width: 100%;
+}
+
+.columnTitleLine {
+  width: 100%;
+  height: 1px;
+  background-color: #b0b0b0;
+}
