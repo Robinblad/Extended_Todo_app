@@ -4,7 +4,13 @@ import calculateSprintDuration from "../../utils/calculateSprintDuration";
 import { Line } from "react-chartjs-2";
 import "./worktable.scss";
 
-function TaskContainer({ task, onDelete, onAddPerformer, onTaskClosed }) {
+function TaskContainer({
+  task,
+  onDelete,
+  onAddPerformer,
+  onTaskClosed,
+  onDetails,
+}) {
   const [timeTillEnd, setTimeTillEnd] = useState(task.taskTime * 3600);
 
   useEffect(() => {
@@ -38,6 +44,18 @@ function TaskContainer({ task, onDelete, onAddPerformer, onTaskClosed }) {
         >
           Add Performer
         </button>
+        <button
+          onClick={() => {
+            if (typeof onDetails === "function") {
+              onDetails(task);
+            } else {
+              console.error("onDetails is not a function");
+            }
+          }}
+          className="detailsButton"
+        >
+          Detail
+        </button>
         <button onClick={() => onDelete(task.id)} className="deleteButton">
           Delete Task
         </button>
@@ -49,6 +67,7 @@ function TaskContainer({ task, onDelete, onAddPerformer, onTaskClosed }) {
 function SprintContainer({
   sprint,
   tasks,
+  onDetails,
   onTaskDelete,
   onTaskAddPerformer,
   onTaskClosed,
@@ -69,6 +88,8 @@ function SprintContainer({
           task={task}
           onDelete={onTaskDelete}
           onAddPerformer={onTaskAddPerformer}
+          onTaskClosed={onTaskClosed}
+          onDetails={onDetails}
         />
       ))}
     </div>
@@ -77,11 +98,11 @@ function SprintContainer({
 
 function TasksTrendDiagram({ tasks }) {
   const data = {
-    labels: tasks.map((task) => task.creationDate), // You need to provide the dates
+    labels: tasks.map((task) => task.creationDate),
     datasets: [
       {
         label: "Number of Closed Tasks",
-        data: tasks.map((task) => task.isClosed), // You need to provide the closed tasks' count
+        data: tasks.map((task) => task.isClosed),
         fill: false,
         backgroundColor: "rgb(75,192,192)",
         borderColor: "rgba(75,192,192,0.2)",
@@ -89,33 +110,33 @@ function TasksTrendDiagram({ tasks }) {
     ],
   };
 
-  const [showPopup, setShowPopup] = useState(false);
-  const togglePopup = () => setShowPopup(!showPopup);
+  const [showDiagram, setShowDiagram] = useState(false);
 
-  const openPopup = () => setShowPopup(true);
-  const closePopup = () => setShowPopup(false);
+  const openDiagram = () => setShowDiagram(true);
+  const closeDiagram = () => setShowDiagram(false);
 
-  function TaskDetailsPopup({ task, onClose }) {
-    return (
-      <>
+  return (
+    <div>
+      <button onClick={openDiagram}>Open Diagram</button>
+      {showDiagram && (
         <div className="popup">
           <h3>Task Details</h3>
-          <p>Author: {task.author}</p>
-          <p>
-            Performer: {task.performerFirstName} {task.performerLastName}
-          </p>
-          <p>Position: {task.position}</p>
-          <p>Department: {task.department}</p>
-          <button onClick={onClose}>Close</button>
+          {tasks.map((task) => (
+            <div key={task.id}>
+              <p>Author: {task.author}</p>
+              <p>
+                Performer: {task.performerFirstName} {task.performerLastName}
+              </p>
+              <p>Position: {task.position}</p>
+              <p>Department: {task.department}</p>
+            </div>
+          ))}
+          <button onClick={closeDiagram}>Close</button>
           <Line data={data} />
         </div>
-        <div>
-          <div onClick={openPopup}></div>
-          {showPopup && <TaskDetailsPopup task={task} onClose={closePopup} />}
-        </div>
-      </>
-    );
-  }
+      )}
+    </div>
+  );
 }
 
 function Worktable() {
@@ -123,6 +144,8 @@ function Worktable() {
   const [showAddPerformerForm, setShowAddPerformerForm] = useState(false);
   const [currentTaskId, setCurrentTaskId] = useState(null);
   const currentDate = new Date();
+  const [showPopup, setShowPopup] = useState(false);
+  const [currentTaskDetails, setCurrentTaskDetails] = useState(null);
 
   const handleTaskClosed = (taskId) => {};
 
@@ -130,11 +153,42 @@ function Worktable() {
     setTasks(tasks.filter((task) => task.id !== taskId));
   };
 
+  const handleShowDetails = (task) => {
+    setCurrentTaskDetails(task);
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    setCurrentTaskDetails(null);
+  };
+
   const handleAddPerformer = (taskId) => {
     setShowAddPerformerForm(true);
 
     setCurrentTaskId(taskId);
   };
+
+  function TaskDetailsPopup({ task, onClose }) {
+    // Code to create the details popup and chart
+    // You can use the `task` prop to display task details
+    // and implement the chart with the data you have
+
+    return (
+      <div className="taskDetailsPopup">
+        {/* Task details and chart goes here */}
+        <button onClick={onClose}>Close</button>
+      </div>
+    );
+  }
+
+  // ... (the rest of the Worktable component)
+
+  {
+    showPopup && currentTaskDetails && (
+      <TaskDetailsPopup task={currentTaskDetails} onClose={handleClosePopup} />
+    );
+  }
 
   const handleAddPerformerSubmit = (performerData) => {
     const updatedTasks = tasks.map((task) => {
@@ -171,6 +225,7 @@ function Worktable() {
           onTaskDelete={handleTaskDelete}
           onTaskAddPerformer={handleAddPerformer}
           onTaskClosed={handleTaskClosed}
+          onDetails={handleShowDetails} // Here the function is passed as a prop
           currentDate={currentDate}
         />
       )}
@@ -211,6 +266,12 @@ function Worktable() {
           <button onClick={() => handleAddPerformerSubmit(newSprint)}>
             Submit Performer
           </button>
+          {showPopup && currentTaskDetails && (
+            <TaskDetailsPopup
+              task={currentTaskDetails}
+              onClose={handleClosePopup}
+            />
+          )}
         </div>
       )}
     </div>

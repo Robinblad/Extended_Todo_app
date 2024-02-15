@@ -145,9 +145,8 @@ function Admin() {
     <div className="adminWrapper">
       <div className="block"></div>
       <h1 className="adminPanel">Admin Panel</h1>
-
       <div className="createTaskWrapper">
-        <h2 className="createTask">create task</h2>
+        <h2 className="createTask">new task</h2>
         <form onSubmit={handleSubmit} className="createTaskForm">
           <input
             type="text"
