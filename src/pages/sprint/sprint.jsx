@@ -40,10 +40,7 @@ const Sprint = () => {
           <p>{newSprint.startDate}</p>
           <p>{newSprint.endDate}</p>
         </div>*/}
-<<<<<<< HEAD
 
-=======
->>>>>>> ce7d76b664c01856f187ac79ad177838040be45d
         <div className="sprintHeader">
           <p>{newSprint.sprintName}</p>
           <div className="dataHeader">
@@ -76,11 +73,7 @@ const Sprint = () => {
                           {...provided.dragHandleProps}
                           className="taskContainerSprint"
                         >
-<<<<<<< HEAD
                           <p>Content is here1</p>
-=======
-                          
->>>>>>> ce7d76b664c01856f187ac79ad177838040be45d
                         </div>
                       )}
                     </Draggable>
